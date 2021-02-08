@@ -1,4 +1,4 @@
-# mediaLab4
+# MSLab4
 
 This lab aims to build your first WebRTC app.
 
