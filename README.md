@@ -1,6 +1,6 @@
 # Implemented features
 
-- Added Canny filtering
+- Added Canny filtering (OpenCV implementation)
 - Added Canny parameters adjustment via input sliders
 
 **Tested on Chrome and Firefox**
