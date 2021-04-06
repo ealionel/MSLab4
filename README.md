@@ -1,4 +1,11 @@
-# MSLab4
+# Implemented features
+
+- Added Canny filtering
+- Added Canny parameters adjustment via input sliders
+
+**Tested on Chrome and Firefox**
+
+# MSLab4 : original assignment
 
 This lab aims to build your first WebRTC app.
 
