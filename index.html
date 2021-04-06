@@ -89,8 +89,16 @@
 
       <label for="filter">Filter: </label>
       <select id="filter"></select>
-
       <button id="snapshot">Take snapshot</button>
+
+      <div hidden id="cannyParameters">
+        <label for="canny-threshold1">Threshold1</label>
+        <input min="0" max="300" type="range" id="canny-threshold1" />
+        <label for="canny-threshold2">Threshold2</label>
+        <input min="0" max="300" type="range" id="canny-threshold2" />
+        <!-- <label for="canny-aperture-size">Aperture Size</label>
+        <input min="1" max="10" type="range" id="canny-aperture-size" /> -->
+      </div>
 
       <canvas id="snapshotCanvas"></canvas>
     </div>

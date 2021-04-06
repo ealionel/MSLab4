@@ -34,6 +34,14 @@ snapshotButton.onclick = function () {
 
 filterSelect.onchange = function () {
   videoCanvas.className = filterSelect.value;
+
+  const divParameters = document.querySelector("#cannyParameters");
+
+  if (filterSelect.value === "canny") {
+    divParameters.hidden = false;
+  } else {
+    divParameters.hidden = true;
+  }
 };
 
 const constraints = {
@@ -41,12 +49,13 @@ const constraints = {
   video: true,
 };
 
-function applyCanny(src, parameters) {}
-
-filters = {
-  canny: (src, parameters) => {
+const filters = {
+  canny: (
+    src,
+    { threshold1 = 50, threshold2 = 100, apertureSize = 3, l2gradient = false }
+  ) => {
     cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-    cv.Canny(src, src, 50, 100, 3, false);
+    cv.Canny(src, src, threshold1, threshold2, apertureSize, l2gradient);
     cv.cvtColor(src, src, cv.COLOR_GRAY2RGBA, 0);
   },
 };
@@ -91,6 +100,30 @@ function initFilters(selectElement) {
 
 initFilters(filterSelect);
 
+const filterParameters = {
+  canny: {
+    threshold1: 50,
+    threshold2: 100,
+    apertureSize: 3,
+    l2gradient: false,
+  },
+};
+
+const DOMcontrolParameters = {
+  canny: {
+    threshold1: document.querySelector("#canny-threshold1"),
+    threshold2: document.querySelector("#canny-threshold2"),
+    // apertureSize: document.querySelector("#canny-aperture-size"),
+  },
+};
+
+for (let [name, element] of Object.entries(DOMcontrolParameters.canny)) {
+  element.oninput = () => {
+    console.log(`new value for ${name} : ${element.value}`);
+    filterParameters.canny[name] = +element.value;
+  };
+}
+
 cv["onRuntimeInitialized"] = () => {
   function handleSuccess(stream) {
     window.stream = stream; // make stream available to browser console
@@ -102,8 +135,6 @@ cv["onRuntimeInitialized"] = () => {
 
     video.height = height;
     video.width = width;
-
-    console.log(width, height);
 
     render();
   }
@@ -117,7 +148,7 @@ cv["onRuntimeInitialized"] = () => {
     const currentFilter = filterSelect.value;
 
     if (currentFilter == "canny") {
-      filters.canny(src);
+      filters.canny(src, filterParameters.canny);
     }
 
     cv.imshow("videoCanvas", src);
